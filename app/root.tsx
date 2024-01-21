@@ -8,14 +8,17 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import Styles from "~/styles/app.css";
 
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : [
+    { rel: "stylesheet", href: Styles }
+  ]),
 ];
 
 export default function App() {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,7 +26,9 @@ export default function App() {
         <Links />
       </head>
       <body>
+
         <Outlet />
+
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
@@ -31,3 +36,10 @@ export default function App() {
     </html>
   );
 }
+
+
+// export function link(){
+//   return [
+//     {rel: "stylesheet", href: Styles}
+//   ]
+// }
