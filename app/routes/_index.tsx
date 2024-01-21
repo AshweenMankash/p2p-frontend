@@ -1,8 +1,12 @@
 import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, createCookie, createCookieSessionStorage, json, redirect } from "@remix-run/node";
-import { Form, Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, Links, Meta, Scripts, useLoaderData, useNavigate, useNavigation, useRouteError, useSearchParams } from "@remix-run/react";
+import { useCallback, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
-
+import { Outlet } from "@remix-run/react";
+import backend_url from "~/config";
 import image from "~/images/background.jpg"
+
+
 
 export const meta: MetaFunction = () => {
   return [
@@ -11,19 +15,46 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+async function getTasks(userId:string){
+  var resp = await fetch(backend_url+"/task?id=" + userId);
+  const data = await resp.json();
+  return data;
+}
+
+function useRevalidate(){
+   let navigate = useNavigate();
+   return useCallback(function revalidate(){
+    navigate('.',{replace:true});
+   },[navigate]);
+}
+
+async function pollTasks({enabled=false, interval=1000}){
+    let revalidate = useRevalidate();
+    useEffect(function pollInterval(){
+      if(enabled) return;
+
+      let intervalId = setInterval(revalidate, interval);
+      return ()=> clearInterval(intervalId);
+    },[revalidate])
+
+}
+
 export async function action({request}:ActionFunctionArgs) {
   const a = await request.formData();
   const data = Object.fromEntries(a);
 
   var { getSession, commitSession, destroySession } = createCookieSessionStorage(({
     cookie: {
-      name: "p2p-user"
+      name: "p2p-user",
+      secrets:["ashweenmankash"]
     }
   }));
   var oldCookie = request.headers.get("Cookie");
   var session = await getSession(oldCookie);
-  data["id"] = 
-  data["interval"] = 10;
+  
+  if (a.get("source") == null || a.get("sink") == null|| a.get("sink") == ""|| a.get("source") == ""){
+    return redirect("/?error=Empty Fields!")
+  }
   var requestData = {
     "fetch_from": a.get("source"),
     "put_to": a.get("sink"),
@@ -33,7 +64,7 @@ export async function action({request}:ActionFunctionArgs) {
   console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
   console.log(data);
   console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-  var response = await fetch("https://api-production-1a1e.up.railway.app/register",{
+  var response = await fetch(backend_url+"/register",{
     method:"POST",
     mode: "cors",
     headers: {"Content-Type":"application/json"},
@@ -47,71 +78,37 @@ export async function action({request}:ActionFunctionArgs) {
 
 export default function Index() {
 
+  const navigate = useNavigate();
+
   var taskData: object = useLoaderData();
+  var [searchParams, setSearcParams] = useSearchParams();
+  const {state} = useNavigation();
+  pollTasks({enabled:true});
+  if(state == 'loading'){
+    return (
+      <div className="text-3xl font-extrabold">
+        Loading ....
+      </div>
+    )
+  }
 
   console.log(taskData);
-  const tasks: string[] = taskData["tasks"];
+  const tasks:[] = taskData["tasks"];
 
-  return (<div className=" ">
-    <header className="inset-x-0 top-0 z-50">
-      <nav className="fixed w-lvw flex items-center justify-center justify-items-start py-6 bg-black text-gray-200 border-b-0 border-b-neutral-600">
-        <div className="flex w-1 text-5xl font-base text-white">
-          P2P
-        </div>
-        <div className="flex  w-1/2 gap-x-3 px-6 items-center justify-center">
-          <a className="text-green text-sm leading-6 text-gray-400  hover:text-white border-none border-black p-2" href={"https://railway.app"} target="_blank">Hosted on</a>
-          {/* <Link className="text-base font-sm leading-6 text-gray-400 hover:text-white border-none border-black p-2" to={"/about"}>Pricing</Link> */}
-        </div>
-        <div className="flex gap-x-2">
-          <button className="">Login</button>
-        </div>
-      </nav>
-      <hr className="border-solid border-t-1 border-neutral-700" />
-      <div className="  text-white bg-black  py-36 text-center">
-        <h2 className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 align-bottom items-end text-5xl font-bold">
-          Tired of polling data from API?<br /> Let's convert it into a <span className="text-orange-400">PUSH API</span>.
+  return (
+    <header className="flex h-lvh items-center">
+      
+      {/* <hr className="border-solid border-t-1 border-neutral-700" /> */}
+      <div className="flex flex-col  w-dvw items-center mb-40">
+        <h2 className="flex-1 bg-clip-text text-white  text-6xl font-bold text-left leading-14 justify-self-center animate-fade-up">
+          Tired of polling data from API?<br /> Let's convert it into a <span className="text-orange-400 animate-fade-up animate-delay-100">PUSH API</span>.
         </h2>
 
-        <button className=" bg-pink-600 font-bold px-8 py-4 mt-10">Try now!</button>
+        <button  onClick={()=>navigate("/trial")} className="animate-bounce flex-1 bg-gradient-to-r from-pink-500 via-orange-400 to-orange-500 font-bold px-8 py-4 mt-20 w-1/5">Try now!</button>
+        {/* <svg className="fill-white mt-24 animate-bounce flex-1 transform: scale-150" width="96" height="96" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/></svg> */}
       </div>
+      
     </header>
-    <div>
-
-      <div className="h-32 px-24 mt-12">
-        <h3 className="font-light text-3xl mb-8">Registered tasks</h3>
-
-        {tasks.map((e) => {
-          return (
-            <h1 className="text-blue-500">{e}</h1>
-          )
-        })}
-      </div>
-
-    </div>
-    <Form method="post" action="/?index" id="register_task">
-    <div className="flex flex-row bg-white m-12 text-black">
-      <div className="flex-1 px-10">
-        <textarea name="source" id="source" rows={10} draggable={false} className=" text-xl text-neutral-500 bg-slate-200 focus: border-slate-200 w-full text-wrap p-2.5" placeholder="Paste source api's curl here!"></textarea>
-      </div>
-      <div className="flex-1 px-10" >
-        <textarea name="sink" id="sink" rows={10} draggable={false} className="text-xl text-neutral-500 bg-slate-200 focus: border-slate-200 w-full text-wrap p-2.5" placeholder="Paste sink Api's curl here!"></textarea>
-        <span>You can get a testing webhook from here! <a className="text-blue-500" target="_blank" href="https://webhook.site/">https://webhook.site/</a></span>
-      </div>
-    </div>
-    <div className="flex-col w-128 px-24 text-black">
-      {/* <div className="inline-flex">
-          <button className="px-12 py-4 rounded-lg bg-green-500 mx-4">Verify</button>
-        </div> */}
-      <div className="inline-flex">
-        <button name="register" type="submit" className="px-12 py-4 rounded-lg bg-orange-500" id="register">Register Task</button>
-      </div>
-    </div>
-    </Form>
-    <div className="h-64 wlvw bg-neutral-700 mt-10">
-
-    </div>
-    
-  </div>
   );
 }
 
@@ -119,9 +116,11 @@ export default function Index() {
 
 
 export async function loader({ request }:LoaderFunctionArgs) {
+  console.log(backend_url);
   var { getSession, commitSession, destroySession } = createCookieSessionStorage(({
     cookie: {
-      name: "p2p-user"
+      name: "p2p-user",
+      secrets:["ashweenmankash"]
     }
   }));
 
@@ -139,12 +138,31 @@ export async function loader({ request }:LoaderFunctionArgs) {
 
 
 
-
-  var resp = await fetch("https://api-production-1a1e.up.railway.app/task?id=" + userId);
-  const data = await resp.json();
+  var data = await getTasks(userId);
+  
   console.log(data, "*************************************************8");
   return json(data, { headers: { 'Set-Cookie': cookie } });
 }
 
 
 
+export function ErrorBoundary() {
+  const error = useRouteError();
+  console.error(error);
+  
+  return (
+    <html>
+      <head>
+        <title>Oh no!</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        {/* add the UI you want your users to see */}
+        <div className="">
+          Something definitely broke!
+        </div>
+      </body>
+    </html>
+  );
+}

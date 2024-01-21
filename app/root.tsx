@@ -25,8 +25,17 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
-
+      <body className="bg-gradient-to-tr from-black to-slate-900 flex flex-col h-lvh">
+      <nav className="flex items-center justify-around justify-items-start py-6 text-gray-200 ">
+        <div className="flex text-2xl font-bold text-white">
+          P2P
+        </div>
+        <div className="flex items-around gap-5 justify-end">
+          <a className="text-green text-sm text-gray-400  hover:text-white border-none border-black p-2" href={"https://railway.app"} target="_blank">Hosted on</a>
+          <button className="">Login</button>
+          {/* <Link className="text-base font-sm leading-6 text-gray-400 hover:text-white border-none border-black p-2" to={"/about"}>Pricing</Link> */}
+        </div>
+      </nav>
         <Outlet />
 
         <ScrollRestoration />

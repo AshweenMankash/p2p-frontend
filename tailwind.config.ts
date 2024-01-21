@@ -10,9 +10,14 @@ export default {
     },
     backgroundImage:{
       "hero": "~/images/background.jpg"
+    },
+    height:{
+      "9lvh": "90lvh"
     }
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss-animated')
+  ],
 } satisfies Config
 
