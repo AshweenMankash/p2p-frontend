@@ -1,6 +1,45 @@
 import { Form } from "@remix-run/react"
 import { useSearchParams } from "@remix-run/react"
 
+
+export async function action({request}) {
+    const a = await request.formData();
+    const data = Object.fromEntries(a);
+  
+    var { getSession, commitSession, destroySession } = createCookieSessionStorage(({
+      cookie: {
+        name: "p2p-user",
+        secrets:["ashweenmankash"]
+      }
+    }));
+    var oldCookie = request.headers.get("Cookie");
+    var session = await getSession(oldCookie);
+    
+    if (a.get("source") == null || a.get("sink") == null|| a.get("sink") == ""|| a.get("source") == ""){
+      return redirect("/?error=Empty Fields!")
+    }
+    var requestData = {
+      "fetch_from": a.get("source"),
+      "put_to": a.get("sink"),
+      "frequency": 10,
+      "id": await session.get("userId")
+    }
+    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+    console.log(data);
+    console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    var response = await fetch(backend_url+"/register",{
+      method:"POST",
+      mode: "cors",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(requestData)
+  
+    });
+  
+    console.log(response.json());
+    return redirect("/");
+  }
+  
+
 export default function Trial() {
     var [searchParams] = useSearchParams();
     return <Form method="post" action="/?index" id="register_task" preventScrollReset={true} className="h-lvh">
