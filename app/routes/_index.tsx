@@ -75,6 +75,19 @@ export default function Index() {
         <button className=" bg-pink-600 font-bold px-8 py-4 mt-10">Try now!</button>
       </div>
     </header>
+    <div>
+
+      <div className="h-32 px-24 mt-12">
+        <h3 className="font-light text-3xl mb-8">Registered tasks</h3>
+
+        {tasks.map((e) => {
+          return (
+            <h1 className="text-blue-500">{e}</h1>
+          )
+        })}
+      </div>
+
+    </div>
     <Form method="post" action="/?index" id="register_task">
     <div className="flex flex-row bg-white m-12 text-black">
       <div className="flex-1 px-10">
@@ -94,19 +107,10 @@ export default function Index() {
       </div>
     </div>
     </Form>
-    <div>
-
-      <div className="h-64 px-24 mt-12">
-        <h3 className="font-light text-3xl mb-8">Registered tasks</h3>
-
-        {tasks.map((e) => {
-          return (
-            <h1 className="text-blue-500">{e}</h1>
-          )
-        })}
-      </div>
+    <div className="h-64 wlvw bg-neutral-700 mt-10">
 
     </div>
+    
   </div>
   );
 }
