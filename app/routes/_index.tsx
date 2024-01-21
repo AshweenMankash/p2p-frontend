@@ -33,7 +33,7 @@ export async function action({request}:ActionFunctionArgs) {
   console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
   console.log(data);
   console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-  var response = await fetch("	http://localhost:5000/register",{
+  var response = await fetch("https://api.railway.internal/register",{
     method:"POST",
     mode: "cors",
     headers: {"Content-Type":"application/json"},
@@ -136,7 +136,7 @@ export async function loader({ request }:LoaderFunctionArgs) {
 
 
 
-  var resp = await fetch("http://localhost:5000/task?id=" + userId);
+  var resp = await fetch("https://api.railway.internal/task?id=" + userId);
   const data = await resp.json();
   console.log(data, "*************************************************8");
   return json(data, { headers: { 'Set-Cookie': cookie } });
