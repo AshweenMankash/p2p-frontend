@@ -15,8 +15,8 @@ export async function action({request}) {
     var oldCookie = request.headers.get("Cookie");
     var session = await getSession(oldCookie);
     
-    if (a.get("source") == null || a.get("sink") == null|| a.get("sink") == ""|| a.get("source") == ""){
-      return redirect("/?error=Empty Fields!")
+    if (a.get("source") == null || a.get("sink") == null|| a.get("sink") == "" || a.get("source") == ""){
+      return redirect("Trial/?error=Empty Fields!")
     }
     var requestData = {
       "fetch_from": a.get("source"),
@@ -67,3 +67,25 @@ export default function Trial() {
 
     </Form>
 }
+
+
+export function ErrorBoundary() {
+    const error = useRouteError();
+    console.error(error);
+    
+    return (
+      <html>
+        <head>
+          <title>Oh no!</title>
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          {/* add the UI you want your users to see */}
+          <div className="">
+            Something definitely broke!
+          </div>
+        </body>
+      </html>
+    );
+  }
