@@ -136,7 +136,7 @@ export async function loader({ request }:LoaderFunctionArgs) {
 
 
 
-  var resp = await fetch("https://api-production-1a1e.up.railway.app?id=" + userId);
+  var resp = await fetch("https://api-production-1a1e.up.railway.app/task?id=" + userId);
   const data = await resp.json();
   console.log(data, "*************************************************8");
   return json(data, { headers: { 'Set-Cookie': cookie } });
