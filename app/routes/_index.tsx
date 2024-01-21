@@ -33,7 +33,7 @@ export async function action({request}:ActionFunctionArgs) {
   console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
   console.log(data);
   console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-  var response = await fetch("https://api.railway.internal/register",{
+  var response = await fetch("https://api-production-1a1e.up.railway.app/register",{
     method:"POST",
     mode: "cors",
     headers: {"Content-Type":"application/json"},
