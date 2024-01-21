@@ -124,19 +124,19 @@ export async function loader({ request }:LoaderFunctionArgs) {
   var oldCookie = request.headers.get("Cookie");
   const session = await getSession(oldCookie);
 
-  const userId = session.get("userId");
+  var userId = session.get("userId");
 
   if (userId == null) {
     session.set("userId", uuidv4());
   }
-
+  userId = session.get("userId");
   const cookie = await commitSession(session);
 
 
 
 
 
-  var resp = await fetch("https://api.railway.internal/task?id=" + userId);
+  var resp = await fetch("https://api-production-1a1e.up.railway.app?id=" + userId);
   const data = await resp.json();
   console.log(data, "*************************************************8");
   return json(data, { headers: { 'Set-Cookie': cookie } });
