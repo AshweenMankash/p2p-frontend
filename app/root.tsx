@@ -26,7 +26,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-gradient-to-tr from-black to-slate-900 flex flex-col h-lvh">
+      <body className="bg-gradient-to-tr from-black to-slate-900 flex flex-col h-lvh" style={{scrollbarWidth:"none"}}>
 
         <nav className="flex items-center justify-around justify-items-start py-6 text-gray-200 ">
 
@@ -37,7 +37,7 @@ export default function App() {
           <div className="flex items-around gap-5 justify-end">
             <a className="text-green text-sm text-gray-400  hover:text-white border-none border-black p-2" href={"https://railway.app"} target="_blank">Hosted on</a>
             <a className="text-green text-sm text-gray-400  hover:text-white border-none border-black p-2" href={"https://github.com/AshweenMankash"} target="_blank">My Github :)</a>
-            <button className="">Login</button>
+            <Link to="/login" className=" p-1">Login</Link>
             {/* <Link className="text-base font-sm leading-6 text-gray-400 hover:text-white border-none border-black p-2" to={"/about"}>Pricing</Link> */}
           </div>
         </nav>
