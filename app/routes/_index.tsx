@@ -44,10 +44,10 @@ export default function Index() {
 
   const navigate = useNavigate();
 
-  var taskData: object = useLoaderData();
+  // var taskData: object = useLoaderData();
   var [searchParams, setSearcParams] = useSearchParams();
   const {state} = useNavigation();
-  pollTasks({enabled:true});
+  // pollTasks({enabled:true});
   if(state == 'loading'){
     return (
       <div className="text-3xl font-extrabold">
@@ -56,8 +56,8 @@ export default function Index() {
     )
   }
 
-  console.log(taskData);
-  const tasks:[] = taskData["tasks"];
+  // console.log(taskData);
+  // const tasks:[] = taskData["tasks"];
 
   return (
     <header className="flex h-lvh items-center">
@@ -79,34 +79,34 @@ export default function Index() {
 
 
 
-export async function loader({ request }:LoaderFunctionArgs) {
-  console.log(backend_url);
-  var { getSession, commitSession, destroySession } = createCookieSessionStorage(({
-    cookie: {
-      name: "p2p-user",
-      secrets:["ashweenmankash"]
-    }
-  }));
+// export async function loader({ request }:LoaderFunctionArgs) {
+//   console.log(backend_url);
+//   var { getSession, commitSession, destroySession } = createCookieSessionStorage(({
+//     cookie: {
+//       name: "p2p-user",
+//       secrets:["ashweenmankash"]
+//     }
+//   }));
 
-  var oldCookie = request.headers.get("Cookie");
-  const session = await getSession(oldCookie);
+//   var oldCookie = request.headers.get("Cookie");
+//   const session = await getSession(oldCookie);
 
-  var userId = session.get("userId");
+//   var userId = session.get("userId");
 
-  if (userId == null) {
-    session.set("userId", uuidv4());
-  }
-  userId = session.get("userId");
-  const cookie = await commitSession(session);
-
-
+//   if (userId == null) {
+//     session.set("userId", uuidv4());
+//   }
+//   userId = session.get("userId");
+//   const cookie = await commitSession(session);
 
 
-  var data = await getTasks(userId);
+
+
+//   var data = await getTasks(userId);
   
-  console.log(data, "*************************************************8");
-  return json(data, { headers: { 'Set-Cookie': cookie } });
-}
+//   console.log(data, "*************************************************8");
+//   return json(data, { headers: { 'Set-Cookie': cookie } });
+// }
 
 
 
