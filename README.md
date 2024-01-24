@@ -1,7 +1,7 @@
 ## P2P - Pull to Push
 ### What does this mean?
 As the name suggests some api's need to send you the data instead you fetching them. That's what this project is about.
-It converts a Pull Api to Push Api through some scheduling and a dashboard to manage your webhooks over time.
+It converts a Pull Api to Push Api and manages it through scheduling, their's a dashboard to manage your webhooks over time.
 
 
 ### But why
