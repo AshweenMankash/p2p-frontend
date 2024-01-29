@@ -36,8 +36,8 @@ export default function App() {
           </div>
           <div className="flex items-around gap-5 justify-end">
             <a className="text-green text-sm text-gray-400  hover:text-white border-none border-black p-2" href={"https://railway.app"} target="_blank">Hosted on</a>
-            <a className="text-green text-sm text-gray-400  hover:text-white border-none border-black p-2" href={"https://github.com/AshweenMankash"} target="_blank">My Github :)</a>
-            <Link to="/login" className=" p-1">Login</Link>
+            <a className="bg-clip-text bg-gradient-to-tr from-pink-700 to-orange-300 text-transparent text-sm border-none border-black p-2" href={"https://github.com/AshweenMankash"} target="_blank">My Github :)</a>
+            <Link to="/login" className=" px-5 py-1 self-center rounded-3xl bg-blue-600 text-sm text-center font-base">Login</Link>
             {/* <Link className="text-base font-sm leading-6 text-gray-400 hover:text-white border-none border-black p-2" to={"/about"}>Pricing</Link> */}
           </div>
         </nav>

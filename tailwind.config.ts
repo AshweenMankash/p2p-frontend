@@ -24,6 +24,9 @@ export default {
       },
       animation:{
         shadowDrop: 'shadowDrop 5s cubic-bezier(0.22, 0.6 , 0.2, 0.1) both'
+      },
+      colors:{
+        "blurBackground": "--tw-bg-opacity: 0.6; background-color: rgb(255 255 255 / var(--tw-bg-opacity));"
       }
 
     },

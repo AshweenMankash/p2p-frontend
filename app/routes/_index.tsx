@@ -64,11 +64,11 @@ export default function Index() {
       
       {/* <hr className="border-solid border-t-1 border-neutral-700" /> */}
       <div className="flex flex-col  w-dvw items-center mb-40">
-        <h2 className="flex-1 bg-clip-text text-white  text-6xl font-bold text-left leading-14 justify-self-center animate-fade-up">
+        <h2 className=" flex-1 bg-clip-text text-white  text-2xl font-bold text-left leading-14 justify-self-center animate-fade-up md:text-sm sm:text-sm lg:text-6xl">
           Tired of polling data from API?<br /> Let's convert it into a <span className="text-orange-400 animate-fade-up animate-delay-100">PUSH API</span>.
         </h2>
 
-        <button  onClick={()=>navigate("/trial")} className="animate-bounce flex-1 bg-gradient-to-r from-pink-500 via-orange-400 to-orange-500 font-bold px-8 py-4 mt-20 w-1/5">Try now!</button>
+        <button  onClick={()=>navigate("/trial")} className="animate-bounce flex-1 bg-gradient-to-r from-pink-500 via-orange-400 to-orange-500 font-bold text-white  px-12 py-2 mt-8 md:mt-20 md:w-1/5 md:px-8 md:py-4">Try now!</button>
         {/* <svg className="fill-white mt-24 animate-bounce flex-1 transform: scale-150" width="96" height="96" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/></svg> */}
       </div>
       

@@ -60,11 +60,11 @@ export default function Trial() {
             "Empty Fields"
         </div>
     ):(<span></span>)}
-        <fetcher.Form method="post" id="register_task" preventScrollReset={true} className=" w-1/2">
+        <fetcher.Form method="post" id="register_task" preventScrollReset={true} className="hidden md:flex w-1/2">
             {searchParams.get("error") != null ?
                 (<div className=" text-red-400 text-2xl ml-36">{searchParams.get("error")}</div>) : (<></>)
             }
-            <div className="h-full text-white flex-col justify-start py-24 px-40">
+            <div className="h-full text-white flex-col justify-start py-24 px-40 w-full">
                 <div className=" animate-fade-right">
                     <textarea name="source" id="source" rows={10} draggable={false} className="bg-slate-800 text-xl text-white border-slate-800 outline-none w-full text-wrap p-5 drop-shadow-lg shadow-md shadow-green-400 rounded-xl" placeholder="curl https://restcountries.com/v3.1/name/deutschland --request GET"></textarea>
                 </div>
@@ -85,7 +85,7 @@ export default function Trial() {
 
 
         </fetcher.Form>
-        <div className="flex text-white w-1/2 justify-start animate-fade-left py-10 ">
+        <div className="hidden md:flex text-white w-1/2 justify-start animate-fade-left py-10 ">
             <div className="absolute h-4/5 w-full rounded-lg -z-10 bg-neutral-900">
 
             </div>
@@ -112,6 +112,10 @@ export default function Trial() {
 
             </div>
 
+        </div>
+
+        <div className="md:hidden px-10 py-3 m-0 text-center self-center w-full bg-slate-800 text-green-500">
+            This page is large screen only
         </div>
     </div>
 }
